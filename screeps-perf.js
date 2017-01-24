@@ -93,14 +93,14 @@ module.exports = function(options) {
           var path = originalFindPath.apply(this, arguments);
           Memory.pathOptimizer[pathIdentifier] = {
             tick: Game.time,
-            path: Room.serializePath(path),
+            path: (!options.serialize) ? Room.serializePath(path) : path,
             used: 1
           }
         } else {
           Memory.pathOptimizer[pathIdentifier].used++;
         }
 
-        return Room.deserializePath(Memory.pathOptimizer[pathIdentifier].path);
+        return (!options.serialize) ? Room.deserializePath(Memory.pathOptimizer[pathIdentifier].path) : Memory.pathOptimizer[pathIdentifier].path;
       }
     }
     setup = true;
